@@ -1,0 +1,31 @@
+<%= form_for(@micropost) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+  <div class="field">
+    <%= f.text_area :content, :onkeyup => "count()", placeholder: "Compose new micropost..." %>
+    <% content_for :head do %>
+        <script type="text/javascript">
+          function count(){
+            var content=document.getElementById("micropost_content").value;
+            var contentlength=content.length;
+            var countertext = document.getElementById("countertext");
+            var left = 140 - contentlength;
+            
+            if (contentlength > 140) {
+                countertext.textContent = "Your Tweet is too long!";
+                countertext.style.color = "red";
+            } else if (contentlength == 139) {
+                countertext.style.color = "black";
+                countertext.textContent = 'You have 1 character left!';
+            } else if (contentlength == 140) {
+                countertext.style.color = "black";
+                countertext.textContent = 'Please stop typing.';
+            } else {
+                countertext.style.color = "black";
+                countertext.textContent = 'You have ' + left + ' characters left!';
+            }
+        }
+        </script>
+      <% end %>
+  </div>
+  <%= f.submit "Post", class: "btn btn-large btn-primary" %>
+<% end %>
